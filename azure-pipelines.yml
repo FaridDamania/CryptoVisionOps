@@ -4,10 +4,11 @@
 # https://aka.ms/yaml
 
 trigger:
-- main  # Trigger the pipeline on changes to the 'main' branch
+- main
 
 pool:
-  vmImage: 'ubuntu-latest' 
+  vmImage: 'ubuntu-latest'
+
 variables:
   DOCKER_IMAGE: 'cryptovisionops'
   DOCKER_PORT: '8000'
@@ -21,7 +22,7 @@ stages:
     steps:
     - task: UsePythonVersion@0
       inputs:
-        versionSpec: '3.x' 
+        versionSpec: '3.x'
         addToPath: true
 
     - script: |
@@ -37,9 +38,9 @@ stages:
     - task: Docker@2
       displayName: "Build Docker Image"
       inputs:
-        command: build
-        containerRegistry: $(dockerRegistryServiceConnection)
+        containerRegistry: 'Docker'  # Replace with your service connection name
         repository: $(DOCKER_IMAGE)
+        command: build
         Dockerfile: '**/Dockerfile'
         tags: |
           latest
@@ -56,3 +57,4 @@ stages:
         echo "Deploying application..."
         docker run -d --name $(DOCKER_IMAGE) -p $(DOCKER_PORT):8000 $(DOCKER_IMAGE)
       displayName: "Run Docker Container"
+
