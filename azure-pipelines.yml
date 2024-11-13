@@ -38,7 +38,7 @@ stages:
     - task: Docker@2
       displayName: "Build Docker Image"
       inputs:
-        containerRegistry: 'Docker'  # Replace with your service connection name
+        containerRegistry: 'Docker'
         repository: $(DOCKER_IMAGE)
         command: build
         Dockerfile: '**/Dockerfile'
