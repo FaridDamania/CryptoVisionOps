@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cryptocurrency Dashboard</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <nav>
+        <a href="/">Home</a>
+        <a href="/portfolio">Portfolio Optimization</a>
+        <a href="/predict">Price Prediction</a>
+    </nav>
+    <header>
+        <h1>Cryptocurrency Dashboard</h1>
+        <p>Track, analyze, and optimize your cryptocurrency investments.</p>
+    </header>
+    <div class="container">
+        <table>
+            <thead>
+                <tr>
+                    <th>Cryptocurrency</th>
+                    <th>Current Price ($)</th>
+                    <th>24h Change (%)</th>
+                    <th>Trend (Last 5 Days)</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for crypto in crypto_data %}
+                <tr>
+                    <td>{{ crypto.symbol }}</td>
+                    <td>${{ crypto.current_price | round(2) }}</td>
+                    <td>
+                        {% if crypto.change_24h >= 0 %}
+                        <span style="color: green;">+{{ crypto.change_24h | round(2) }}%</span>
+                        {% else %}
+                        <span style="color: red;">{{ crypto.change_24h | round(2) }}%</span>
+                        {% endif %}
+                    </td>
+                    <td>
+                        <svg width="120" height="50">
+                            <polyline points="{% for price in crypto.trend %}{{ loop.index0 * 30 }},{{ 50 - (price / crypto.max_trend * 50) }} {% endfor %}"
+                                      fill="none" stroke="blue" stroke-width="2" />
+                        </svg>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <footer>
+        <p>&copy; 2024 Crypto Portfolio Optimizer</p>
+    </footer>
+</body>
+</html>

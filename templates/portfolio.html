@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfolio Optimization Results</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <nav>
+        <a href="/">Home</a>
+        <a href="/portfolio">Portfolio Optimization</a>
+        <a href="/predict">Price Prediction</a>
+    </nav>
+    <header>
+        <h1>Portfolio Optimization Results</h1>
+    </header>
+    <div class="container">
+        <h2>Portfolio Allocations</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Cryptocurrency</th>
+                    <th>Allocation ($)</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for ticker, allocation in allocations.items() %}
+                <tr>
+                    <td>{{ ticker }}</td>
+                    <td>${{ allocation | round(2) }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <h2>Portfolio Allocation</h2>
+        <div class="chart">
+            {{ pie_chart_html | safe }}
+        </div>
+    </div>
+    <footer>
+        <p>&copy; 2024 Crypto Portfolio Optimizer. All Rights Reserved.</p>
+    </footer>
+</body>
+</html>
